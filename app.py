@@ -11,7 +11,9 @@ app = Flask(__name__)
 
 # Configure CORS
 # In production, specify the actual frontend URL (e.g. from Vercel)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, origins=[
+    "https://xeno-growthpilot-ai-frontend.vercel.app"
+])
 
 # Configure Database
 # Default to local SQLite for instant zero-config setup, but easily overridden with MySQL URL
