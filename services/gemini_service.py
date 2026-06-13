@@ -6,20 +6,7 @@ from database.db import db
 from models.customer import Customer
 # Optional Gemini Support
 GEMINI_AVAILABLE = False
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-
-try:
-    import google.generativeai as genai
-
-    if GEMINI_API_KEY:
-        genai.configure(api_key=GEMINI_API_KEY)
-        GEMINI_AVAILABLE = True
-        print("Gemini AI enabled")
-    else:
-        print("Gemini API key not found. Using fallback engine.")
-
-except Exception as e:
-    print(f"Gemini disabled: {e}")
+GEMINI_API_KEY = None
 
 class GeminiService:
     @staticmethod
