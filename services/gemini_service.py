@@ -4,12 +4,22 @@ import requests
 from datetime import datetime, timedelta
 from database.db import db
 from models.customer import Customer
-import google.generativeai as genai
-
-# Setup Gemini API key if present
+# Optional Gemini Support
+GEMINI_AVAILABLE = False
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
+
+try:
+    import google.generativeai as genai
+
+    if GEMINI_API_KEY:
+        genai.configure(api_key=GEMINI_API_KEY)
+        GEMINI_AVAILABLE = True
+        print("Gemini AI enabled")
+    else:
+        print("Gemini API key not found. Using fallback engine.")
+
+except Exception as e:
+    print(f"Gemini disabled: {e}")
 
 class GeminiService:
     @staticmethod
@@ -89,7 +99,7 @@ class GeminiService:
         based on the user's business goal.
         """
         # If API key is available, we try to call Gemini
-        if GEMINI_API_KEY:
+        if GEMINI_AVAILABLE and GEMINI_API_KEY:
             try:
                 # Use beta model or gemini-pro
                 model = genai.GenerativeModel('gemini-pro')
